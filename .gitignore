@@ -227,3 +227,6 @@ logs/
 *.pkl
 # Research papers (local only)
 documents/papers/
+.env
+
+!.env.example

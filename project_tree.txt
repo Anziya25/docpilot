@@ -1,0 +1,106 @@
+.
+├── app
+│   ├── api
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── config
+│   │   ├── __init__.py
+│   │   └── settings.py
+│   ├── core
+│   │   ├── __init__.py
+│   │   ├── prompts.py
+│   │   └── rag.py
+│   ├── database
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── main.py
+│   ├── models
+│   │   ├── chat_models.py
+│   │   └── __init__.py
+│   ├── services
+│   │   ├── chat.py
+│   │   ├── chunker.py
+│   │   ├── document_loader.py
+│   │   ├── embedder.py
+│   │   ├── __init__.py
+│   │   ├── retriever.py
+│   │   └── vector_store.py
+│   └── utils
+│       ├── helpers.py
+│       └── __init__.py
+├── docker-compose.yml
+├── Dockerfile
+├── documents
+│   ├── books
+│   ├── notes
+│   │   └── sample.txt
+│   └── papers
+│       └── attention.pdf
+├── .env
+├── frontend
+│   ├── @
+│   │   ├── components
+│   │   │   └── ui
+│   │   │       └── button.tsx
+│   │   └── lib
+│   │       └── utils.ts
+│   ├── components.json
+│   ├── eslint.config.js
+│   ├── .gitignore
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   ├── README.md
+│   ├── src
+│   │   ├── App.tsx
+│   │   ├── assets
+│   │   ├── components
+│   │   │   ├── chat
+│   │   │   │   ├── ChatInput.tsx
+│   │   │   │   ├── ChatMessage.tsx
+│   │   │   │   ├── ChatWindow.tsx
+│   │   │   │   └── SourceCard.tsx
+│   │   │   ├── documents
+│   │   │   │   ├── DocumentCard.tsx
+│   │   │   │   ├── DocumentList.tsx
+│   │   │   │   └── UploadZone.tsx
+│   │   │   ├── layout
+│   │   │   │   ├── Layout.tsx
+│   │   │   │   ├── Navbar.tsx
+│   │   │   │   └── Sidebar.tsx
+│   │   │   └── ui
+│   │   ├── hooks
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── pages
+│   │   │   └── Dashboard.tsx
+│   │   ├── services
+│   │   │   └── api.ts
+│   │   └── types
+│   │       ├── chat.ts
+│   │       └── document.ts
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+├── .gitignore
+├── logs
+├── project_tree.txt
+├── README.md
+├── requirements.txt
+├── streamlit_app.py
+├── test_all_pdfs.py
+├── test_chunker.py
+├── test_config.py
+├── test_docx.py
+├── test_env.py
+├── test_indexing.py
+├── test_loader.py
+├── test_rag.py
+├── test_retriever.py
+└── tests
+
+31 directories, 72 files
