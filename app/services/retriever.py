@@ -26,7 +26,7 @@ class RetrieverService:
     def search(
         self,
         query: str,
-        k: int = 5,
+        k: int = 10,
     ):
         """
         Retrieve top-k similar chunks.
@@ -36,5 +36,21 @@ class RetrieverService:
             query,
             k=k,
         )
+
+        print("\n" + "=" * 80)
+        print("RETRIEVED CHUNKS")
+        print("=" * 80)
+
+        for i, (doc, score) in enumerate(results):
+
+            print(f"\nResult {i+1}")
+            print(f"Score : {score}")
+            print(f"Metadata : {doc.metadata}")
+
+            print("-" * 60)
+
+            print(doc.page_content[:500])
+
+            print("=" * 80)
 
         return results

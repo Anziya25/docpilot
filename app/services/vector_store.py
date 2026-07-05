@@ -5,6 +5,8 @@ Creates, saves, loads and searches
 the vector database.
 """
 
+from pathlib import Path
+
 from langchain_community.vectorstores import FAISS
 
 from app.config.settings import VECTOR_STORE_PATH
@@ -17,7 +19,10 @@ class VectorStoreService:
 
     def __init__(self):
 
-        self.index_path = VECTOR_STORE_PATH
+        self.index_path = Path(VECTOR_STORE_PATH)
+
+        # Create folder if it doesn't exist
+        self.index_path.mkdir(parents=True, exist_ok=True)
 
     def create_vector_store(
         self,
@@ -54,6 +59,11 @@ class VectorStoreService:
         """
         Load an existing FAISS index.
         """
+
+        if not (self.index_path / "index.faiss").exists():
+            raise FileNotFoundError(
+                "Vector store not found. Please build the index first."
+            )
 
         return FAISS.load_local(
             str(self.index_path),
