@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="screenshots/banner.png" alt="DocPilot Banner" width="100%">
+  <img src="screenshots/Workflow.png" alt="DocPilot Banner" width="100%">
 </p>
 
 # DocPilot
