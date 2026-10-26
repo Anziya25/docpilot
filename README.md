@@ -45,42 +45,34 @@ The index is rebuilt from supported files in the upload folder; uploading alone 
 
 ## Requirements
 
-- Python and a working pip environment (a recent Python 3 version compatible with the pinned requirements)
+- Python 3.10 (tested on Ubuntu 22.04 with Conda; other Python versions have not been verified)
 - Node.js and npm compatible with the Vite version in `frontend/package.json`
 - [Ollama](https://ollama.com/) installed and running locally
 - Internet access for the initial embedding-model download
 
-The pinned `requirements.txt` includes PyTorch and CUDA-related packages and may be large or platform-specific. It has not been verified here as a clean cross-platform installation. Use a supported Python environment and check dependency compatibility before deployment.
+The backend dependency list is trimmed for the Python 3.10 setup tested on Ubuntu 22.04. Install CPU-only PyTorch first to avoid pulling in large CUDA dependencies. Dependency resolution and backend imports were checked on that system; this is not a guarantee of clean installation on every platform.
 
 ## Backend setup
 
-Clone the repository and create a virtual environment from the **repository root**:
+Clone the repository:
 
 ```bash
 git clone https://github.com/Anziya25/docpilot.git
 cd docpilot
-python -m venv .venv
 ```
 
-Activate the environment:
-
-**Linux / macOS**
+**Tested Ubuntu 22.04 / Conda setup:**
 
 ```bash
-source .venv/bin/activate
-```
-
-**Windows PowerShell**
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-Install dependencies:
-
-```bash
+conda create -n docpilot python=3.10 -y
+conda activate docpilot
+python -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
 python -m pip install -r requirements.txt
+python -m pip check
+python -c "import torch, transformers, sentence_transformers, fastapi, faiss, langchain_ollama, langchain_huggingface; print('DocPilot dependencies OK')"
 ```
+
+The CPU-only PyTorch wheel is intentionally installed **before** the remaining requirements. If you prefer a virtual environment instead of Conda, create and activate a Python 3.10 environment and run the same pip commands. GPU configurations and other operating systems have not been verified.
 
 Copy the example configuration to `.env` (Windows PowerShell: `Copy-Item .env.example .env`; Linux/macOS: `cp .env.example .env`). Adjust settings as needed:
 
@@ -97,15 +89,15 @@ PORT=8000
 
 The `LLM_MODEL` value must match a model installed in Ollama. `HOST` and `PORT` are configuration examples; the Uvicorn command below explicitly sets its host and port.
 
-In another terminal, start Ollama and download the example chat model:
+In another terminal, verify Ollama is running and download the example chat model if needed:
 
 ```bash
-ollama serve
-```
-
-```bash
+ollama --version
+ollama list
 ollama pull llama3.2:3b
 ```
+
+On Ubuntu, check `systemctl is-active ollama`; if it is inactive, start the service with `sudo systemctl start ollama`. Alternatively, run `ollama serve` in a separate terminal when no service is running. You can reuse an existing Ollama model instead of downloading another: set `LLM_MODEL` in `.env` to the exact name shown by `ollama list` (for example, `llama3:latest`).
 
 If Ollama is already running as a service, do not start a second server. Use `ollama list` to verify that the configured model is installed.
 
@@ -160,7 +152,7 @@ npm run lint
 npm run build
 ```
 
-These checks have not been run as part of this documentation update.
+The React development server and an upload → index → chat flow were successfully exercised on Ubuntu 22.04. A full test-suite run, production security review, and `npm audit` remediation have not been completed.
 
 ## Project structure
 
@@ -195,7 +187,8 @@ Runtime upload files and FAISS indexes are excluded by `.gitignore`. Do not comm
 - Source metadata is returned, but it is not a guarantee of factual correctness or citation quality.
 - The current upload route should be hardened for untrusted/public use (for example, filename sanitization, file-size limits, authentication, and validation).
 - Local FAISS loading uses pickle-based deserialization. Only load indexes created by a trusted process; never load untrusted index files.
-- No production deployment, comprehensive security review, or clean-install test is claimed here.
+- The app was successfully installed and tested end to end on a second Ubuntu 22.04 machine using Python 3.10 and Ollama. This does not establish production readiness or cross-platform compatibility.
+- npm reported 24 dependency vulnerabilities (including one critical) during the Ubuntu setup; they have not yet been triaged or fixed. Review `npm audit` before deployment.
 
 ## License
 
